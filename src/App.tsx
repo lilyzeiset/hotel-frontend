@@ -1,5 +1,8 @@
 import { CssBaseline, Box, Toolbar } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+
 import { Provider } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -33,6 +36,7 @@ function App() {
 
   return (
     // <Provider store={store}>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
     <ThemeProvider theme={mdTheme}>
     <BrowserRouter>
       <CssBaseline />
@@ -55,6 +59,7 @@ function App() {
       </Box>
     </BrowserRouter>
     </ThemeProvider>
+    </LocalizationProvider>
   )
 }
 
