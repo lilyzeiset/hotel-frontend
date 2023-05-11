@@ -3,14 +3,14 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { Provider } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-// import TitleBar from "./components/TitleBar";
-// import Sidebar from "./components/Sidebar";
+import TitleBar from "./components/TitleBar";
+import Sidebar from "./components/Sidebar";
 
-// import Home from "./components/Home";
-// import Search from "./components/Search";
+import Home from "./components/Home";
+import Search from "./components/Search";
 // import SearchResults from "./components/SearchResults";
 // import MakeReservation from "./components/MakeReservation";
-// import MyReservations from "./components/MyReservations";
+import MyReservations from "./components/MyReservations";
 
 
 function App() {
@@ -37,19 +37,19 @@ function App() {
     <BrowserRouter>
       <CssBaseline />
       <Box sx={{ display: 'flex' }}>
-        {/* <TitleBar drawerWidth={drawerWidth} />
-        <Sidebar drawerWidth={drawerWidth} /> */}
+        <TitleBar drawerWidth={drawerWidth} />
+        <Sidebar drawerWidth={drawerWidth} />
         <Box
           component="main"
           sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
         >
           <Toolbar /> {/* preserves space taken up by titlebar */}
           <Routes>
-            {/* <Route path='/' element={<Home />} />
+            <Route path='/' element={<Home />} />
             <Route path='/search' element={<Search />} />
-            <Route path='/searchResults' element={<SearchResults />} />
-            <Route path='/makeReservation' element={<MakeReservation />} />
-            <Route path='/reservations' element={<MyReservations />} /> */}
+            {/* <Route path='/searchResults' element={<SearchResults />} /> */}
+            {/* <Route path='/makeReservation' element={<MakeReservation />} /> */}
+            <Route path='/myReservations' element={<MyReservations />} />
           </Routes>
         </Box>
       </Box>

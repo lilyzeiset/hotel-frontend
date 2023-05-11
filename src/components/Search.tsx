@@ -8,7 +8,9 @@ export default function Search() {
     <Typography variant="h4">
       This is the search page. 
       It will have a form to search for reservations 
-      and send user to SearchResults page
+      and send user to SearchResults page.
+      <br />
+      Example
     </Typography>
   )
 }
