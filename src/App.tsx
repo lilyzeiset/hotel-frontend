@@ -11,7 +11,7 @@ import Sidebar from "./components/Sidebar";
 
 import Home from "./components/Home";
 import Search from "./components/Search";
-// import SearchResults from "./components/SearchResults";
+import SearchResults from "./components/SearchResults";
 // import MakeReservation from "./components/MakeReservation";
 import MyReservations from "./components/MyReservations";
 
@@ -51,7 +51,7 @@ function App() {
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/search' element={<Search />} />
-            {/* <Route path='/searchResults' element={<SearchResults />} /> */}
+            <Route path='/searchResults' element={<SearchResults />} />
             {/* <Route path='/makeReservation' element={<MakeReservation />} /> */}
             <Route path='/myReservations' element={<MyReservations />} />
           </Routes>
