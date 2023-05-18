@@ -1,6 +1,9 @@
 import { Stack, Card, Button } from "@mui/material";
+import { useNavigate, createSearchParams } from "react-router-dom";
 
 export default function SearchResults() {
+
+  const navigate = useNavigate();
 
   const roomTypes = [
     'Standard',
@@ -18,6 +21,11 @@ export default function SearchResults() {
     {id: 4, roomTypeId: 3, roomNumber: '301', nightlyRate: 200},
     {id: 5, roomTypeId: 4, roomNumber: '401', nightlyRate: 300}
   ]
+
+  function handleBookRoom() {
+    navigate({pathname: '/makeReservation'});
+  }
+
   return (
     <Stack spacing={2} sx={{minWidth: 480}}>
       {rooms?.map((room) => (
@@ -28,7 +36,7 @@ export default function SearchResults() {
           <br />
           ${room.nightlyRate}/night
           <br />
-          <Button>
+          <Button variant='contained' onClick={handleBookRoom}>
             Book room
           </Button>
         </Card>

@@ -9,7 +9,7 @@ import {
   FormControl
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, createSearchParams } from "react-router-dom";
 import dayjs, {Dayjs} from "dayjs";
 
@@ -33,13 +33,17 @@ export default function Search() {
   const [checkinDate, setCheckinDate] = useState<Dayjs|null>(dayjs(new Date()));
   const [checkoutDate, setCheckoutDate] = useState<Dayjs|null>(dayjs(new Date()));
 
+  const [isLoading, setIsLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState('');
 
-  // const useNavigateSearch = () => {
-  //   const navigate = useNavigate();
-  //   return (pathname: string, params: any) =>
-  //     navigate({ pathname, search: `?${createSearchParams(params)}` });
-  // };
+  /**
+   * on component load, display nothing until data is loaded
+   */
+  useEffect(() => {
+    setIsLoading(true);
+    //fetch room types
+    setIsLoading(false);
+  }, []);
 
 
   function handleSearch() {
@@ -64,6 +68,13 @@ export default function Search() {
       navigate({pathname: '/searchResults', search: `?${createSearchParams(params)}`});
     }
     
+  }
+
+  /**
+   * display nothing until data is loaded
+   */
+  if (isLoading) {
+    return null;
   }
 
   return (
