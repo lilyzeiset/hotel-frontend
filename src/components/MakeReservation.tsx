@@ -35,7 +35,8 @@ export default function MakeReservation() {
 
   function handleCancelReservation() {
     //delete reservtion
-    navigate('/home');
+    clearTimeout(timeoutRef);
+    navigate('/');
   }
 
   return (
