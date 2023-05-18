@@ -1,34 +1,65 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { CssBaseline, Box, Toolbar } from "@mui/material";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+
+import { Provider } from "react-redux";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import TitleBar from "./components/TitleBar";
+import Sidebar from "./components/Sidebar";
+
+import Home from "./components/Home";
+import Search from "./components/Search";
+import SearchResults from "./components/SearchResults";
+import MakeReservation from "./components/MakeReservation";
+import MyReservations from "./components/MyReservations";
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  
+  /**
+   * Theme object used by Material UI
+   */
+  const mdTheme = createTheme({
+    palette: {
+      primary: {
+        main: '#9bbb2b'
+      }
+    }
+  });
+
+  /**
+   * Width of the sidebar in pixels
+   */
+  const drawerWidth = 240;
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn moreasdfasdf
-      </p>
-    </>
+    // <Provider store={store}>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+    <ThemeProvider theme={mdTheme}>
+    <BrowserRouter>
+      <CssBaseline />
+      <Box sx={{ display: 'flex' }}>
+        <TitleBar drawerWidth={drawerWidth} />
+        <Sidebar drawerWidth={drawerWidth} />
+        <Box
+          component="main"
+          sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}
+        >
+          <Toolbar /> {/* preserves space taken up by titlebar */}
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/search' element={<Search />} />
+            <Route path='/searchResults' element={<SearchResults />} />
+            <Route path='/makeReservation' element={<MakeReservation />} />
+            <Route path='/myReservations' element={<MyReservations />} />
+          </Routes>
+        </Box>
+      </Box>
+    </BrowserRouter>
+    </ThemeProvider>
+    </LocalizationProvider>
   )
 }
 
