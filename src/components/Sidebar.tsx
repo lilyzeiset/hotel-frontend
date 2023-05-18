@@ -6,11 +6,11 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import WarehouseIcon from '@mui/icons-material/Warehouse';
 import AddIcon from '@mui/icons-material/Add';
 import HomeIcon from '@mui/icons-material/Home';
 
-import { useEffect } from 'react';
+// import { useEffect } from 'react';
+// @ts-ignore
 import { useNavigate, useLocation } from 'react-router-dom';
 
 /**
@@ -22,7 +22,7 @@ export default function Sidebar(props: {drawerWidth: number}) {
   const drawerWidth = props.drawerWidth;
 
   const navigate = useNavigate();
-  const location = useLocation();
+  // const location = useLocation();
 
   return (
     <Drawer
