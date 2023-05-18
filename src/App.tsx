@@ -1,5 +1,8 @@
 import { CssBaseline, Box, Toolbar } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+
 import { Provider } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -8,8 +11,8 @@ import Sidebar from "./components/Sidebar";
 
 import Home from "./components/Home";
 import Search from "./components/Search";
-// import SearchResults from "./components/SearchResults";
-// import MakeReservation from "./components/MakeReservation";
+import SearchResults from "./components/SearchResults";
+import MakeReservation from "./components/MakeReservation";
 import MyReservations from "./components/MyReservations";
 
 
@@ -33,6 +36,7 @@ function App() {
 
   return (
     // <Provider store={store}>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
     <ThemeProvider theme={mdTheme}>
     <BrowserRouter>
       <CssBaseline />
@@ -47,14 +51,15 @@ function App() {
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/search' element={<Search />} />
-            {/* <Route path='/searchResults' element={<SearchResults />} /> */}
-            {/* <Route path='/makeReservation' element={<MakeReservation />} /> */}
+            <Route path='/searchResults' element={<SearchResults />} />
+            <Route path='/makeReservation' element={<MakeReservation />} />
             <Route path='/myReservations' element={<MyReservations />} />
           </Routes>
         </Box>
       </Box>
     </BrowserRouter>
     </ThemeProvider>
+    </LocalizationProvider>
   )
 }
 
