@@ -6,8 +6,9 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import AddIcon from '@mui/icons-material/Add';
+import SearchIcon from '@mui/icons-material/Search';
 import HomeIcon from '@mui/icons-material/Home';
+import HotelIcon from '@mui/icons-material/Hotel';
 
 // import { useEffect } from 'react';
 // @ts-ignore
@@ -55,7 +56,7 @@ export default function Sidebar(props: {drawerWidth: number}) {
         <ListItem disablePadding>
           <ListItemButton onClick={() => navigate('/search/')}>
             <ListItemIcon>
-              <AddIcon />
+              <SearchIcon />
             </ListItemIcon>
             <ListItemText primary='Search for rooms' />
           </ListItemButton>
@@ -64,7 +65,7 @@ export default function Sidebar(props: {drawerWidth: number}) {
         <ListItem disablePadding>
           <ListItemButton onClick={() => navigate('/myReservations/')}>
             <ListItemIcon>
-              <AddIcon />
+              <HotelIcon />
             </ListItemIcon>
             <ListItemText primary='My reservations' />
           </ListItemButton>

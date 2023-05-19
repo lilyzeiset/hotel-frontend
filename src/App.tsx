@@ -24,7 +24,7 @@ function App() {
   const mdTheme = createTheme({
     palette: {
       primary: {
-        main: '#9bbb2b'
+        main: '#873783'
       }
     }
   });
