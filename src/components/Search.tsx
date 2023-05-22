@@ -30,7 +30,7 @@ export default function Search() {
 
   const {
     data: roomtypes,
-    refetch: refetchRoomtypes
+    refetch: _refetchRoomtypes
   } = useFindAllRoomtypesQuery();
 
   const navigate = useNavigate();
