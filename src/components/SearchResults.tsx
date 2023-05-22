@@ -1,9 +1,12 @@
 import { Stack, Card, Button } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
 export default function SearchResults() {
 
   const navigate = useNavigate();
+
+  const {t} = useTranslation();
 
   const roomTypes = [
     'Standard',
@@ -30,14 +33,14 @@ export default function SearchResults() {
     <Stack spacing={2} sx={{minWidth: 480}}>
       {rooms?.map((room) => (
         <Card key={room.id}>
-          {roomTypes[room.roomTypeId+1]} Room
+          {roomTypes[room.roomTypeId+1]} {t('room')}
           <br />
-          Floor {room.roomNumber[0]}
+          {t('floor')} {room.roomNumber[0]}
           <br />
-          ${room.nightlyRate}/night
+          ${room.nightlyRate}/{t('night')}
           <br />
           <Button variant='contained' onClick={handleBookRoom}>
-            Book room
+            {t('bookroom')}
           </Button>
         </Card>
       ))}

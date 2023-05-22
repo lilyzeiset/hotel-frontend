@@ -28,7 +28,11 @@ i18n.use(initReactI18next).init({
         "address": "Address",
         "specialrequests": "Requests for hotel staff",
         "cancel": "Cancel",
-        "create-reservation": "Create reservation"
+        "create-reservation": "Create reservation",
+        "room": "Room",
+        "floor": "Floor",
+        "night": "night",
+        "bookroom": "Book room"
       }
     },
     de: {
@@ -54,7 +58,11 @@ i18n.use(initReactI18next).init({
         "address": "de Address",
         "specialrequests": "de Requests for hotel staff",
         "cancel": "de Cancel",
-        "create-reservation": "de Create reservation"
+        "create-reservation": "de Create reservation",
+        "room": "de Room",
+        "floor": "de Floor",
+        "night": "de night",
+        "bookroom": "de Book room"
       }
     }
   },
