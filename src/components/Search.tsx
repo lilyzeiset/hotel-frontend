@@ -13,19 +13,25 @@ import { useState, useEffect } from "react";
 import { useNavigate, createSearchParams } from "react-router-dom";
 import dayjs, {Dayjs} from "dayjs";
 import { useTranslation } from "react-i18next";
+import { useFindAllRoomtypesQuery } from "../api/roomtypeApi";
 
 /**
  * Search page
  */
 export default function Search() {
 
-  const roomTypes = [
-    'Standard',
-    'Deluxe',
-    'Family',
-    'Executive',
-    'Penthouse'
-  ];
+  // const roomTypes = [
+  //   'Standard',
+  //   'Deluxe',
+  //   'Family',
+  //   'Executive',
+  //   'Penthouse'
+  // ];
+
+  const {
+    data: roomtypes,
+    refetch: refetchRoomtypes
+  } = useFindAllRoomtypesQuery();
 
   const navigate = useNavigate();
 
@@ -99,9 +105,9 @@ export default function Search() {
           value={roomType}
           onChange={(event) => setRoomType(event.target.value)}
         >
-          {roomTypes?.map((roomType) => (
-            <MenuItem key={roomType} value={roomType}>
-              {roomType}
+          {roomtypes?.map((roomtype) => (
+            <MenuItem key={roomtype.id} value={roomtype.name}>
+              {roomtype.name}
             </MenuItem>
           ))}
         </Select>
