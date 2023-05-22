@@ -13,6 +13,7 @@ import HotelIcon from '@mui/icons-material/Hotel';
 // import { useEffect } from 'react';
 // @ts-ignore
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 /**
  * Sidebar component
@@ -24,6 +25,8 @@ export default function Sidebar(props: {drawerWidth: number}) {
 
   const navigate = useNavigate();
   // const location = useLocation();
+
+  const {t} = useTranslation();
 
   return (
     <Drawer
@@ -45,7 +48,7 @@ export default function Sidebar(props: {drawerWidth: number}) {
             <ListItemIcon>
               <HomeIcon />
             </ListItemIcon>
-            <ListItemText primary='Home' />
+            <ListItemText primary={t('sidebar-home')} />
           </ListItemButton>
         </ListItem>
       </Toolbar>
@@ -58,7 +61,7 @@ export default function Sidebar(props: {drawerWidth: number}) {
             <ListItemIcon>
               <SearchIcon />
             </ListItemIcon>
-            <ListItemText primary='Search for rooms' />
+            <ListItemText primary={t('sidebar-search')} />
           </ListItemButton>
         </ListItem>
 
@@ -67,7 +70,7 @@ export default function Sidebar(props: {drawerWidth: number}) {
             <ListItemIcon>
               <HotelIcon />
             </ListItemIcon>
-            <ListItemText primary='My reservations' />
+            <ListItemText primary={t('sidebar-reservations')} />
           </ListItemButton>
         </ListItem>
       </List>
