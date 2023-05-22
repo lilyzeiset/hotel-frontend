@@ -42,7 +42,7 @@ export default function TitleBar (props: {drawerWidth: number}) {
         ml: `${drawerWidth}px`
       }}
     >
-      <Toolbar>
+      <Toolbar sx={{ justifyContent: "space-between" }}>
         <Typography variant="h6" noWrap component="div">
           {t('page-title')}
         </Typography>
