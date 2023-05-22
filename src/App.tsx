@@ -2,9 +2,10 @@ import { CssBaseline, Box, Toolbar } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
-
-// import { Provider } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import { Provider } from "react-redux";
+import store from "./utils/reduxstore";
 
 import TitleBar from "./components/TitleBar";
 import Sidebar from "./components/Sidebar";
@@ -38,7 +39,7 @@ function App() {
   const drawerWidth = 240;
 
   return (
-    // <Provider store={store}>
+    <Provider store={store}>
     <LocalizationProvider dateAdapter={AdapterDayjs}>
     <ThemeProvider theme={mdTheme}>
     <I18nextProvider i18n={i18n}>
@@ -65,6 +66,7 @@ function App() {
     </I18nextProvider>
     </ThemeProvider>
     </LocalizationProvider>
+    </Provider>
   )
 }
 
