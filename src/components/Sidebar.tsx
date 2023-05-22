@@ -6,12 +6,14 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import AddIcon from '@mui/icons-material/Add';
+import SearchIcon from '@mui/icons-material/Search';
 import HomeIcon from '@mui/icons-material/Home';
+import HotelIcon from '@mui/icons-material/Hotel';
 
 // import { useEffect } from 'react';
 // @ts-ignore
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 /**
  * Sidebar component
@@ -23,6 +25,8 @@ export default function Sidebar(props: {drawerWidth: number}) {
 
   const navigate = useNavigate();
   // const location = useLocation();
+
+  const {t} = useTranslation();
 
   return (
     <Drawer
@@ -44,7 +48,7 @@ export default function Sidebar(props: {drawerWidth: number}) {
             <ListItemIcon>
               <HomeIcon />
             </ListItemIcon>
-            <ListItemText primary='Home' />
+            <ListItemText primary={t('sidebar-home')} />
           </ListItemButton>
         </ListItem>
       </Toolbar>
@@ -55,18 +59,18 @@ export default function Sidebar(props: {drawerWidth: number}) {
         <ListItem disablePadding>
           <ListItemButton onClick={() => navigate('/search/')}>
             <ListItemIcon>
-              <AddIcon />
+              <SearchIcon />
             </ListItemIcon>
-            <ListItemText primary='Search for rooms' />
+            <ListItemText primary={t('sidebar-search')} />
           </ListItemButton>
         </ListItem>
 
         <ListItem disablePadding>
           <ListItemButton onClick={() => navigate('/myReservations/')}>
             <ListItemIcon>
-              <AddIcon />
+              <HotelIcon />
             </ListItemIcon>
-            <ListItemText primary='My reservations' />
+            <ListItemText primary={t('sidebar-reservations')} />
           </ListItemButton>
         </ListItem>
       </List>

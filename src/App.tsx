@@ -15,6 +15,9 @@ import SearchResults from "./components/SearchResults";
 import MakeReservation from "./components/MakeReservation";
 import MyReservations from "./components/MyReservations";
 
+import i18n from "./utils/i18n";
+import { I18nextProvider } from "react-i18next";
+
 
 function App() {
   
@@ -24,7 +27,7 @@ function App() {
   const mdTheme = createTheme({
     palette: {
       primary: {
-        main: '#9bbb2b'
+        main: '#873783'
       }
     }
   });
@@ -38,6 +41,7 @@ function App() {
     // <Provider store={store}>
     <LocalizationProvider dateAdapter={AdapterDayjs}>
     <ThemeProvider theme={mdTheme}>
+    <I18nextProvider i18n={i18n}>
     <BrowserRouter>
       <CssBaseline />
       <Box sx={{ display: 'flex' }}>
@@ -58,6 +62,7 @@ function App() {
         </Box>
       </Box>
     </BrowserRouter>
+    </I18nextProvider>
     </ThemeProvider>
     </LocalizationProvider>
   )

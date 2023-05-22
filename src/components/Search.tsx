@@ -12,6 +12,7 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { useState, useEffect } from "react";
 import { useNavigate, createSearchParams } from "react-router-dom";
 import dayjs, {Dayjs} from "dayjs";
+import { useTranslation } from "react-i18next";
 
 /**
  * Search page
@@ -36,6 +37,8 @@ export default function Search() {
   const [isLoading, setIsLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState('');
 
+  const {t} = useTranslation();
+
   /**
    * on component load, display nothing until data is loaded
    */
@@ -48,11 +51,11 @@ export default function Search() {
 
   function handleSearch() {
     if (Number(numGuests) < 1) {
-      setErrorMsg('You must have at least one guest.')
+      setErrorMsg(t('search-error-numguests') ?? '')
     } else if (roomType === '') {
-      setErrorMsg('Please select a room type.')
+      setErrorMsg(t('search-error-roomtype') ?? '')
     } else if (checkinDate && checkoutDate && checkinDate?.toDate() >= checkoutDate?.toDate()) {
-      setErrorMsg('Check-out date must be at least 1 day after check-in date!')
+      setErrorMsg(t('search-error-dates') ?? '')
     } else {
       setErrorMsg('');
       console.log(numGuests);
@@ -81,18 +84,18 @@ export default function Search() {
     <Stack spacing={2} sx={{minWidth: 480}}>
 
       <TextField 
-        label='Number of guests' 
+        label={t('search-numberofguests')}
         type='number'
         value={numGuests} 
         onChange={(event) => setNumGuests(event.target.value)}
       />
 
       <FormControl>
-        <InputLabel id="roomtype-select-label">Room type</InputLabel>
+        <InputLabel id="roomtype-select-label">{t('search-roomtype')}</InputLabel>
         <Select required
           labelId="roomtype-select-label"
           id="roomtype-select"
-          label='Room type'
+          label={t('search-roomtype')}
           value={roomType}
           onChange={(event) => setRoomType(event.target.value)}
         >
@@ -105,12 +108,12 @@ export default function Search() {
       </FormControl>
 
       <DatePicker 
-        label='Check-in date' 
+        label={t('search-checkindate')}
         value={checkinDate}
         onChange={(date) => setCheckinDate(date)}
       />
       <DatePicker 
-        label='Check-out date' 
+        label={t('search-checkoutdate')}
         value={checkoutDate}
         onChange={(date) => setCheckoutDate(date)}
       />

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Stack, TextField, Typography, Button } from "@mui/material"
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 export default function MakeReservation() {
 
@@ -13,6 +14,8 @@ export default function MakeReservation() {
   let timeoutRef = 0;
 
   const navigate = useNavigate();
+
+  const {t} = useTranslation();
 
   /**
    * On load:
@@ -42,33 +45,33 @@ export default function MakeReservation() {
   return (
     <Stack spacing={2} sx={{minWidth: 480}}>
       <Typography variant='h5'>
-        Your room has been temporarily reserved for the next 5 minutes.
+        {t('res-tempreserved')}
       </Typography>
       <Typography variant='h5'>
-        Please enter your information to confirm reservation.
+        {t('res-enterinfo')}
       </Typography>
       <TextField 
-        label='Name' 
+        label={t('name')}
         value={inputName} 
         onChange={e => setInputName(e.target.value)} 
       />
       <TextField 
-        label='Email' 
+        label={t('email')}
         value={inputEmail} 
         onChange={e => setInputEmail(e.target.value)} 
       />
       <TextField 
-        label='Phone number' 
+        label={t('phonenumber')}
         value={inputPhone} 
         onChange={e => setInputPhone(e.target.value)} 
       />
       <TextField 
-        label='Address' 
+        label={t('address')}
         value={inputAddress} 
         onChange={e => setInputAddress(e.target.value)} 
       />
       <TextField 
-        label='Requests for hotel staff' 
+        label={t('specialrequests')}
         value={inputRequests} 
         onChange={e => setInputRequests(e.target.value)} 
       />
@@ -77,13 +80,13 @@ export default function MakeReservation() {
           variant='contained' 
           onClick={() => handleCreateReservation()}
         >
-          Create Reservation
+          {t('create-reservation')}
         </Button>
         <Button 
           variant='outlined' 
           onClick={() => handleCancelReservation()}
         >
-          Cancel
+          {t('cancel')}
         </Button>
       </Stack>
     </Stack>
