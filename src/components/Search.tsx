@@ -9,7 +9,7 @@ import {
   FormControl
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate, createSearchParams } from "react-router-dom";
 import dayjs, {Dayjs} from "dayjs";
 import { useTranslation } from "react-i18next";
@@ -20,41 +20,25 @@ import { useFindAllRoomtypesQuery } from "../api/roomtypeApi";
  */
 export default function Search() {
 
-  // const roomTypes = [
-  //   'Standard',
-  //   'Deluxe',
-  //   'Family',
-  //   'Executive',
-  //   'Penthouse'
-  // ];
-
   const {
     data: roomtypes,
     refetch: _refetchRoomtypes
   } = useFindAllRoomtypesQuery();
 
   const navigate = useNavigate();
+  const {t} = useTranslation();
 
   const [numGuests, setNumGuests] = useState('2');
   const [roomType, setRoomType] = useState('');
   const [checkinDate, setCheckinDate] = useState<Dayjs|null>(dayjs(new Date()));
   const [checkoutDate, setCheckoutDate] = useState<Dayjs|null>(dayjs(new Date()));
 
-  const [isLoading, setIsLoading] = useState(true);
   const [errorMsg, setErrorMsg] = useState('');
 
-  const {t} = useTranslation();
-
   /**
-   * on component load, display nothing until data is loaded
+   * Handles submitting a search
+   * including showing an error message (validation)
    */
-  useEffect(() => {
-    setIsLoading(true);
-    //fetch room types
-    setIsLoading(false);
-  }, []);
-
-
   function handleSearch() {
     if (Number(numGuests) < 1) {
       setErrorMsg(t('search-error-numguests') ?? '')
@@ -64,26 +48,15 @@ export default function Search() {
       setErrorMsg(t('search-error-dates') ?? '')
     } else {
       setErrorMsg('');
-      console.log(numGuests);
-      console.log(roomType);
-      console.log(checkinDate?.toDate());
-      console.log(checkoutDate?.toDate());
       const params = {
         numGuests: numGuests,
         roomType: roomType,
-        checkinDate: checkinDate?.toString() ?? '', //TODO: fix formatting of these strings
-        checkoutDate: checkoutDate?.toString() ?? ''
+        checkinDate: checkinDate?.format('YYYY-MM-DD') ?? '',
+        checkoutDate: checkoutDate?.format('YYYY-MM-DD') ?? ''
       }
       navigate({pathname: '/searchResults', search: `?${createSearchParams(params)}`});
     }
     
-  }
-
-  /**
-   * display nothing until data is loaded
-   */
-  if (isLoading) {
-    return null;
   }
 
   return (
@@ -106,7 +79,7 @@ export default function Search() {
           onChange={(event) => setRoomType(event.target.value)}
         >
           {roomtypes?.map((roomtype) => (
-            <MenuItem key={roomtype.id} value={roomtype.name}>
+            <MenuItem key={roomtype.id} value={roomtype.id}>
               {roomtype.name}
             </MenuItem>
           ))}
