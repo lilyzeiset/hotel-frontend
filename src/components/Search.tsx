@@ -3,10 +3,10 @@ import {
   Stack, 
   TextField, 
   Button, 
-  InputLabel, 
-  Select, 
-  MenuItem,
-  FormControl
+  // InputLabel, 
+  // Select, 
+  // MenuItem,
+  // FormControl
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import { useState } from "react";
@@ -75,6 +75,7 @@ export default function Search() {
         onChange={(event) => setNumGuests(event.target.value)}
       />
 
+{/* Roomtype selector. Not used but leaving here for future reference */}
 {/* 
       <FormControl>
         <InputLabel id="roomtype-select-label">{t('search-roomtype')}</InputLabel>
