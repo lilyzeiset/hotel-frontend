@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { Stack, Card, Button, Typography } from "@mui/material";
 
@@ -14,6 +14,9 @@ export default function SearchResults() {
   const {t} = useTranslation();
 
   const [isLoading, setIsLoading] = useState(true);
+
+  const [searchParams] = useSearchParams();
+  console.log([...searchParams]);
 
   const {
     data: _roomtypes,
