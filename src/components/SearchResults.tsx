@@ -1,11 +1,19 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-import { Stack, Card, Button, Typography } from "@mui/material";
+import { 
+  Stack, 
+  Card, 
+  Button, 
+  Typography,
+  Pagination
+} from "@mui/material";
 
-import { useFindAllRoomtypesQuery } from "../api/roomtypeApi";
-import { useFindAllRoomsQuery } from "../api/roomApi";
+import { 
+  // useFindAllRoomsQuery, 
+  useFindAvailableRoomsQuery 
+} from "../api/roomApi";
 
 export default function SearchResults() {
 
@@ -13,58 +21,44 @@ export default function SearchResults() {
 
   const {t} = useTranslation();
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [page, setPage] = useState(1);
 
   const [searchParams] = useSearchParams();
-  console.log([...searchParams]);
-
-  const {
-    data: _roomtypes,
-    refetch: refetchRoomtypes
-  } = useFindAllRoomtypesQuery();
+  const mySearchParams = {
+    numGuests: Number(searchParams.get('numGuests')),
+    checkinDate: searchParams.get('checkinDate') as string,
+    checkoutDate: searchParams.get('checkoutDate') as string,
+    minPrice: Number(searchParams.get('minPrice')),
+    maxPrice: Number(searchParams.get('maxPrice')),
+    numResultsPerPage: 3, //ideally let user decide, but this is fine for now
+    pageNumber: page-1 //0-indexed
+  };
 
   const {
     data: rooms,
-    refetch: refetchRooms
-  } = useFindAllRoomsQuery();
-
-  // const rooms = [
-  //   {id: 0, roomTypeId: 1, roomNumber: '101', nightlyRate: 100},
-  //   {id: 1, roomTypeId: 1, roomNumber: '102', nightlyRate: 100},
-  //   {id: 2, roomTypeId: 2, roomNumber: '201', nightlyRate: 150},
-  //   {id: 3, roomTypeId: 2, roomNumber: '202', nightlyRate: 150},
-  //   {id: 4, roomTypeId: 3, roomNumber: '301', nightlyRate: 200},
-  //   {id: 5, roomTypeId: 4, roomNumber: '401', nightlyRate: 300}
-  // ]
+    refetch: _refetchRooms
+  } = useFindAvailableRoomsQuery(mySearchParams);
 
   /**
-   * Display nothing until data is loaded
+   * sends user to makeReservation to book the selected room
    */
-  useEffect(() => {
-    setIsLoading(true);
-    refetchRoomtypes().then(() => {
-      refetchRooms().then(() => {
-        setIsLoading(false);
-      })
-    })
-  }, [])
-
   function handleBookRoom() {
     navigate({pathname: '/makeReservation'});
   }
 
   /**
-   * Display nothing while data is loading
+   * handles pagination
    */
-  if (isLoading) {
-    return null;
-  }
+  function handleChangePage(_event: React.ChangeEvent<unknown>, value: number) {
+    setPage(value);
+  };
 
   return (
     <Stack spacing={2} sx={{minWidth: 480}}>
       {rooms?.map((room) => (
         <Card key={room.id} raised={true}>
-          <Stack spacing={2} padding={2} direction={'row'} sx={{justifyContent: "space-between"}}>
+          <Stack spacing={2} padding={2} direction={'row'} sx={{justifyContent: 'space-between'}}>
+
             <Stack spacing={2}>
               <Typography sx={{fontWeight: 'bold'}}>
                 {room?.roomType?.name}
@@ -83,10 +77,18 @@ export default function SearchResults() {
             </Button>
             </Stack>
 
-                       
           </Stack>
         </Card>
       ))}
+      
+      <Pagination 
+        count={100} 
+        siblingCount={2} 
+        boundaryCount={1}  
+        page={page} 
+        onChange={handleChangePage}
+      />
+
     </Stack>
   )
 }

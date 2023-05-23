@@ -13,6 +13,19 @@ export type RoomTsType = {
 }
 
 /**
+ * Search parameters type
+ */
+export type SearchParams = {
+    numGuests: number,
+    checkinDate: string,
+    checkoutDate: string,
+    minPrice: number,
+    maxPrice: number,
+    numResultsPerPage: number,
+    pageNumber: number
+}
+
+/**
  * API for /rooms endpoint
  */
 export const roomApi = createApi({
@@ -24,6 +37,12 @@ export const roomApi = createApi({
         }),
         findRoomById: builder.query<RoomTsType, number>({
             query: (id) => `/${id}`
+        }),
+        findAvailableRooms: builder.query<RoomTsType[], SearchParams>({
+            query: (searchParams) => { return {
+                url: 'available', 
+                params: searchParams 
+            }}
         }),
         createRoom: builder.mutation<RoomTsType, RoomTsType>({
             query: (room) => { return {
@@ -51,6 +70,7 @@ export const roomApi = createApi({
 export const {
     useFindAllRoomsQuery,
     useFindRoomByIdQuery,
+    useFindAvailableRoomsQuery,
     useCreateRoomMutation,
     useUpdateRoomMutation,
     useDeleteRoomMutation
