@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { 
+  useNavigate, 
+  useSearchParams,
+  createSearchParams
+} from "react-router-dom";
 
 import { 
   Stack, 
@@ -42,8 +46,14 @@ export default function SearchResults() {
   /**
    * sends user to makeReservation to book the selected room
    */
-  function handleBookRoom() {
-    navigate({pathname: '/makeReservation'});
+  function handleBookRoom(roomId: number) {
+    const params = {
+      numGuests: String(mySearchParams.numGuests),
+      checkinDate: mySearchParams.checkinDate,
+      checkoutDate: mySearchParams.checkoutDate,
+      roomId: String(roomId)
+    }
+    navigate({pathname: '/makeReservation', search: `?${createSearchParams(params)}`});
   }
 
   /**
@@ -72,7 +82,7 @@ export default function SearchResults() {
             </Stack>
 
             <Stack spacing={2}>
-            <Button variant='contained' onClick={handleBookRoom}>
+            <Button variant='contained' onClick={() => handleBookRoom(room.id ?? -1)}>
               {t('bookroom')}
             </Button>
             </Stack>

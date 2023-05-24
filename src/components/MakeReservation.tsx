@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Stack, TextField, Typography, Button } from "@mui/material"
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+
+import { useCreateReservationMutation } from '../api/reservationApi';
 
 export default function MakeReservation() {
 
@@ -17,6 +19,22 @@ export default function MakeReservation() {
 
   const {t} = useTranslation();
 
+  const [createReservation] = useCreateReservationMutation();
+
+  const [searchParams] = useSearchParams();
+
+  /*
+  export type ReservationType = {
+    id?: number,
+    guestId: number,
+    roomId: number,
+    checkinDate: Date,
+    checkoutDate: Date,
+    numberOfGuests: number,
+    specialRequests: string
+  }
+  */
+
   /**
    * On load:
    * Create the reservation
@@ -25,9 +43,24 @@ export default function MakeReservation() {
    */
   useEffect(() => {
     //create reservation (guest id = -1)
+    createReservation({
+      guestId: -1,
+      roomId: Number(searchParams.get('roomId')),
+      checkInDate: new Date(searchParams.get('checkinDate') ?? 0),
+      checkOutDate: new Date(searchParams.get('checkoutDate') ?? 0),
+      numberOfGuests: Number(searchParams.get('numGuests')),
+      specialRequests: ''
+    })
+
+    //set 5 min timer to cancel
     timeoutRef = setTimeout(() => {
       handleCancelReservation();
     }, 1000*60*5); //5 minutes
+
+    //returned func from useEffect gets run when component unmounts
+    return () => {
+      clearTimeout(timeoutRef);
+    }
   }, []);
 
   function handleCreateReservation() {

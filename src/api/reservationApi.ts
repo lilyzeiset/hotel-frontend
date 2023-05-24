@@ -4,8 +4,8 @@ export type ReservationType = {
     id?: number,
     guestId: number,
     roomId: number,
-    checkinDate: Date,
-    checkoutDate: Date,
+    checkInDate: Date,
+    checkOutDate: Date,
     numberOfGuests: number,
     specialRequests: string
 }
