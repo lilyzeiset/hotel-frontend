@@ -16,7 +16,8 @@ import {
 
 import { 
   // useFindAllRoomsQuery, 
-  useFindAvailableRoomsQuery 
+  useFindAvailableRoomsQuery, 
+  useFindAvailableRoomsTotalQuery 
 } from "../api/roomApi";
 
 export default function SearchResults() {
@@ -27,6 +28,7 @@ export default function SearchResults() {
 
   const [page, setPage] = useState(1);
 
+  const numResultsPerPage = 3; //ideally let user decide, but this is fine for now
   const [searchParams] = useSearchParams();
   const mySearchParams = {
     numGuests: Number(searchParams.get('numGuests')),
@@ -34,7 +36,7 @@ export default function SearchResults() {
     checkoutDate: searchParams.get('checkoutDate') as string,
     minPrice: Number(searchParams.get('minPrice')),
     maxPrice: Number(searchParams.get('maxPrice')),
-    numResultsPerPage: 3, //ideally let user decide, but this is fine for now
+    numResultsPerPage: numResultsPerPage, 
     pageNumber: page-1 //0-indexed
   };
 
@@ -42,6 +44,11 @@ export default function SearchResults() {
     data: rooms,
     refetch: _refetchRooms
   } = useFindAvailableRoomsQuery(mySearchParams);
+
+  const {
+    data: totalResults,
+    refetch: _refetchTotal
+  } = useFindAvailableRoomsTotalQuery(mySearchParams);
 
   /**
    * sends user to makeReservation to book the selected room
@@ -92,7 +99,7 @@ export default function SearchResults() {
       ))}
       
       <Pagination 
-        count={100} 
+        count={Math.ceil((totalResults ?? 0) / numResultsPerPage)} 
         siblingCount={2} 
         boundaryCount={1}  
         page={page} 

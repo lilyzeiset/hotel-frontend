@@ -44,6 +44,12 @@ export const roomApi = createApi({
                 params: searchParams 
             }}
         }),
+        findAvailableRoomsTotal: builder.query<number, SearchParams>({
+            query: (searchParams) => { return {
+                url: 'available/total', 
+                params: searchParams 
+            }}
+        }),
         createRoom: builder.mutation<RoomTsType, RoomTsType>({
             query: (room) => { return {
                 method: 'POST',
@@ -71,6 +77,7 @@ export const {
     useFindAllRoomsQuery,
     useFindRoomByIdQuery,
     useFindAvailableRoomsQuery,
+    useFindAvailableRoomsTotalQuery,
     useCreateRoomMutation,
     useUpdateRoomMutation,
     useDeleteRoomMutation
