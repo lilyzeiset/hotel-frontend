@@ -35,7 +35,13 @@ i18n.use(initReactI18next).init({
         "room": "Room",
         "floor": "Floor",
         "night": "night",
-        "bookroom": "Book room"
+        "bookroom": "Book room",
+        "checkinday": "Check-in day",
+        "checkoutday": "Check-out day",
+        "edit": "Edit",
+        "submit": "Submit",
+        "delete": "Delete",
+        "guests": "Guests"
       }
     },
     de: {
@@ -68,7 +74,13 @@ i18n.use(initReactI18next).init({
         "room": "Zimmer",
         "floor": "Boden",
         "night": "Nacht",
-        "bookroom": "Ein Zimmer buchen"
+        "bookroom": "Ein Zimmer buchen",
+        "checkinday": "Check-in-Tag",
+        "checkoutday": "Check-out-Tag",
+        "edit": "Bearbeiten",
+        "submit": "Einreichen",
+        "delete": "Löschen",
+        "guests": "Gäste"
       }
     }
   },

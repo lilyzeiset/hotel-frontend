@@ -65,10 +65,12 @@ export default function Reservation(props: ReservationProps) {
         
           <Stack spacing={2} padding={2}>
             <Typography>
-              {res?.checkInDate.toString()}
+              {t('checkinday')}: &nbsp;
+              {new Date(res?.checkInDate.toString()).toDateString()}
             </Typography>
             <Typography>
-              {res?.checkOutDate.toString()}
+              {t('checkoutday')}: &nbsp;
+              {new Date(res?.checkOutDate.toString()).toDateString()}
             </Typography>
               <TextField 
                 type='number'
@@ -84,13 +86,25 @@ export default function Reservation(props: ReservationProps) {
           </Stack>
 
           <Stack spacing={2}>
-            <Button onClick={handleSubmitEdit}>
+            <Button 
+              variant='contained'
+              onClick={handleSubmitEdit}
+            >
               {t('submit')}
             </Button>
-            <Button onClick={handelCancelEdit}>
+
+            <Button 
+              variant='outlined'
+              onClick={handelCancelEdit}
+            >
               {t('cancel')}
             </Button>
-            <Button onClick={handleDelete}>
+            
+            <Button 
+              color='error'
+              variant='contained'
+              onClick={handleDelete}
+            >
               {t('delete')}
             </Button>
           </Stack>
@@ -105,13 +119,16 @@ export default function Reservation(props: ReservationProps) {
 
           <Stack spacing={2}>
             <Typography>
-              {res?.checkInDate.toString()}
+              {t('checkinday')}: &nbsp;
+              {new Date(res?.checkInDate.toString()).toDateString()}
             </Typography>
             <Typography>
-              {res?.checkOutDate.toString()}
+              {t('checkoutday')}: &nbsp;
+              {new Date(res?.checkOutDate.toString()).toDateString()}
             </Typography>
             <Typography>
-              {res?.numberOfGuests} {t('guests')}
+              {t('guests')}: &nbsp;
+              {res?.numberOfGuests} 
             </Typography>
             <Typography>
               {res?.specialRequests}
@@ -119,7 +136,7 @@ export default function Reservation(props: ReservationProps) {
           </Stack>
 
           <Stack spacing={2}>
-            <Button onClick={() => setIsEdit(true)}>
+            <Button variant='contained' onClick={() => setIsEdit(true)}>
               {t('edit')}
             </Button>
           </Stack>
