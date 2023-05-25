@@ -1,27 +1,48 @@
 import { 
-  Stack
+  Stack, Typography
 } from "@mui/material";
 import { useLocation } from "react-router-dom";
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 
-import { useFindAllReservationsQuery } from "../api/reservationApi";
+import { useFindReservationsByGuestIdQuery } from "../api/reservationApi";
 import Reservation from "./Reservation";
+import UserIdContext from "../contexts/UserContext";
+import { useTranslation } from "react-i18next";
 
 /**
  * Search page
  */
 export default function MyReservations() {
 
+  const {t} = useTranslation();
   const location = useLocation();
+  
+  const [user] = useContext(UserIdContext);
 
   const {
     data: reservations,
     refetch: refetchReservations
-  } = useFindAllReservationsQuery(); //TODO: change this to find by logged in user
+  } = useFindReservationsByGuestIdQuery(user?.id);
 
   useEffect(() => {
     refetchReservations()
   }, [location.state?.refetch])
+
+  if (!user) {
+    return (
+      <Typography variant="h5">
+        {t('login-required')}
+      </Typography>
+    )
+  }
+
+  if ((reservations?.length ?? 0) < 1) {
+    return (
+      <Typography variant="h5">
+      {t('no-res-found')}
+      </Typography>
+    )
+  }
 
   return (
     <Stack spacing={2} sx={{minWidth: 480}}>

@@ -50,7 +50,9 @@ i18n.use(initReactI18next).init({
         "confirm-password": "Confirm password",
         "logout": "Log out",
         "register-error-frontend": "User not created. Make sure all fields are filled and passwords match.",
-        "register-error-backend": "Something went wrong. User not created."
+        "register-error-backend": "Something went wrong. User not created.",
+        "login-required": "You have to log in first!",
+        "no-res-found": "No reservations found."
       }
     },
     de: {
@@ -98,7 +100,9 @@ i18n.use(initReactI18next).init({
         "confirm-password": "Bestätige das Passwort",
         "logout": "Ausloggen",
         "register-error-frontend": "Benutzer nicht erstellt. Stellen Sie sicher, dass alle Felder ausgefüllt sind und die Passwörter übereinstimmen.",
-        "register-error-backend": "Etwas ist schief gelaufen. Benutzer nicht erstellt."
+        "register-error-backend": "Etwas ist schief gelaufen. Benutzer nicht erstellt.",
+        "login-required": "Sie müssen sich zuerst anmelden!",
+        "no-res-found": "Keine Reservierungen gefunden."
       }
     }
   },

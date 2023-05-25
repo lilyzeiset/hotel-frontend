@@ -40,7 +40,7 @@ export default function MakeReservation() {
       checkInDate: new Date(searchParams.get('checkinDate') ?? 0),
       checkOutDate: new Date(searchParams.get('checkoutDate') ?? 0),
       numberOfGuests: Number(searchParams.get('numGuests')),
-      specialRequests: ''
+      specialRequests: 'aaa'
     })
 
     //set 5 min timer to cancel
