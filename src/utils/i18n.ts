@@ -41,7 +41,12 @@ i18n.use(initReactI18next).init({
         "edit": "Edit",
         "submit": "Submit",
         "delete": "Delete",
-        "guests": "Guests"
+        "guests": "Guests",
+        "password": "Password",
+        "login": "Log in",
+        "register": "Register",
+        "login-error": "Unable to log in. Do you have the right email and password?",
+        "logged-in-as": "Logged in as"
       }
     },
     de: {
@@ -80,7 +85,12 @@ i18n.use(initReactI18next).init({
         "edit": "Bearbeiten",
         "submit": "Einreichen",
         "delete": "Löschen",
-        "guests": "Gäste"
+        "guests": "Gäste",
+        "password": "Passwort",
+        "login": "Anmeldung",
+        "register": "Registrieren",
+        "login-error": "Anmeldung nicht möglich. Haben Sie die richtige E-Mail-Adresse und das richtige Passwort?",
+        "logged-in-as": "Angemeldet als"
       }
     }
   },
