@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { Stack, TextField, Typography, Button } from "@mui/material"
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import { useCreateReservationMutation } from '../api/reservationApi';
+import UserIdContext from '../contexts/UserContext';
 
 export default function MakeReservation() {
 
@@ -23,17 +24,7 @@ export default function MakeReservation() {
 
   const [searchParams] = useSearchParams();
 
-  /*
-  export type ReservationType = {
-    id?: number,
-    guestId: number,
-    roomId: number,
-    checkinDate: Date,
-    checkoutDate: Date,
-    numberOfGuests: number,
-    specialRequests: string
-  }
-  */
+  const [user] = useContext(UserIdContext);
 
   /**
    * On load:
@@ -44,7 +35,7 @@ export default function MakeReservation() {
   useEffect(() => {
     //create reservation (guest id = -1)
     createReservation({
-      guestId: -1,
+      guestId: user.id,
       roomId: Number(searchParams.get('roomId')),
       checkInDate: new Date(searchParams.get('checkinDate') ?? 0),
       checkOutDate: new Date(searchParams.get('checkoutDate') ?? 0),

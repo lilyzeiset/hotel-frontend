@@ -10,7 +10,7 @@ export type AuthType = {
  */
 export const authApi = createApi({
     reducerPath: 'authApi',
-    baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:8080/guests/login'}),
+    baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:8080/'}),
     endpoints: (builder) => {return {
         login: builder.mutation<AuthType, AuthType>({
             query: (auth) => { return {
@@ -18,12 +18,19 @@ export const authApi = createApi({
                   Authorization: `Basic ${btoa(`${auth.email}:${auth.password}`)}`
                 },
                 method: 'POST',
-                url: ''
+                url: 'guests/login'
             }}
-        })
+        }),
+        logout: builder.mutation<void, void>({
+          query: () => { return {
+              method: 'POST',
+              url: 'logout'
+          }}
+      })
     }}
 })
 
 export const {
-  useLoginMutation
+  useLoginMutation,
+  useLogoutMutation
 } = authApi;

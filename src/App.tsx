@@ -22,6 +22,7 @@ import { I18nextProvider } from "react-i18next";
 
 import UserIdContext from "./contexts/UserContext";
 import { useState } from "react";
+import UserRegistration from "./components/UserRegistration";
 
 
 function App() {
@@ -67,6 +68,7 @@ function App() {
             <Route path='/makeReservation' element={<MakeReservation />} />
             <Route path='/myReservations' element={<MyReservations />} />
             <Route path='/login' element={<UserLogin />} />
+            <Route path='/register' element={<UserRegistration />} />
           </Routes>
         </Box>
       </Box>

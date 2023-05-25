@@ -46,7 +46,11 @@ i18n.use(initReactI18next).init({
         "login": "Log in",
         "register": "Register",
         "login-error": "Unable to log in. Do you have the right email and password?",
-        "logged-in-as": "Logged in as"
+        "logged-in-as": "Logged in as",
+        "confirm-password": "Confirm password",
+        "logout": "Log out",
+        "register-error-frontend": "User not created. Make sure all fields are filled and passwords match.",
+        "register-error-backend": "Something went wrong. User not created."
       }
     },
     de: {
@@ -90,7 +94,11 @@ i18n.use(initReactI18next).init({
         "login": "Anmeldung",
         "register": "Registrieren",
         "login-error": "Anmeldung nicht möglich. Haben Sie die richtige E-Mail-Adresse und das richtige Passwort?",
-        "logged-in-as": "Angemeldet als"
+        "logged-in-as": "Angemeldet als",
+        "confirm-password": "Bestätige das Passwort",
+        "logout": "Ausloggen",
+        "register-error-frontend": "Benutzer nicht erstellt. Stellen Sie sicher, dass alle Felder ausgefüllt sind und die Passwörter übereinstimmen.",
+        "register-error-backend": "Etwas ist schief gelaufen. Benutzer nicht erstellt."
       }
     }
   },

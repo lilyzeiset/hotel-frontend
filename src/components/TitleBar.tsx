@@ -12,6 +12,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import UserIdContext from '../contexts/UserContext';
+import { useLogoutMutation } from '../api/authApi';
 
 /**
  * Title bar component
@@ -25,7 +26,9 @@ export default function TitleBar (props: {drawerWidth: number}) {
   const {t, i18n} = useTranslation();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-  const [user, _setUser] = useContext(UserIdContext);
+  const [user, setUser] = useContext(UserIdContext);
+
+  const [logout] = useLogoutMutation();
 
   function changeLanguage(lang: string) {
     i18n.changeLanguage(lang);
@@ -53,16 +56,35 @@ export default function TitleBar (props: {drawerWidth: number}) {
           {t('page-title')}
         </Typography>
         {user ? (
-          <Typography>
-            {t('logged-in-as')}: {user?.name}
-          </Typography>
+          <>
+            <Typography>
+              {t('logged-in-as')}: {user?.name}
+            </Typography>
+            <Button 
+              variant='contained'
+              onClick={() => {
+                logout();
+                setUser(null);
+              }}
+            >
+              {t('logout')}
+            </Button>
+          </>
         ) : (
-          <Button 
-            variant='contained'
-            onClick={() => navigate('/login')}
-          >
-            {t('login')}
-          </Button>
+          <>
+            <Button 
+              variant='contained'
+              onClick={() => navigate('/register')}
+            >
+              {t('register')}
+            </Button>
+            <Button 
+              variant='contained'
+              onClick={() => navigate('/login')}
+            >
+              {t('login')}
+            </Button>
+          </>
         )}
         <div>
           <IconButton
