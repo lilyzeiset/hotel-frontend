@@ -17,7 +17,7 @@ export default function MyReservations() {
   const {
     data: reservations,
     refetch: refetchReservations
-  } = useFindAllReservationsQuery();
+  } = useFindAllReservationsQuery(); //TODO: change this to find by logged in user
 
   useEffect(() => {
     refetchReservations()
