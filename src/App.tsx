@@ -15,9 +15,13 @@ import Search from "./components/Search";
 import SearchResults from "./components/SearchResults";
 import MakeReservation from "./components/MakeReservation";
 import MyReservations from "./components/MyReservations";
+import UserLogin from "./components/UserLogin";
 
 import i18n from "./utils/i18n";
 import { I18nextProvider } from "react-i18next";
+
+import UserIdContext from "./contexts/UserContext";
+import { useState } from "react";
 
 
 function App() {
@@ -38,11 +42,14 @@ function App() {
    */
   const drawerWidth = 240;
 
+  const [user, setUser] = useState();
+
   return (
     <Provider store={store}>
     <LocalizationProvider dateAdapter={AdapterDayjs}>
     <ThemeProvider theme={mdTheme}>
     <I18nextProvider i18n={i18n}>
+    <UserIdContext.Provider value={[user, setUser]}>
     <BrowserRouter>
       <CssBaseline />
       <Box sx={{ display: 'flex' }}>
@@ -59,10 +66,12 @@ function App() {
             <Route path='/searchResults' element={<SearchResults />} />
             <Route path='/makeReservation' element={<MakeReservation />} />
             <Route path='/myReservations' element={<MyReservations />} />
+            <Route path='/login' element={<UserLogin />} />
           </Routes>
         </Box>
       </Box>
     </BrowserRouter>
+    </UserIdContext.Provider>
     </I18nextProvider>
     </ThemeProvider>
     </LocalizationProvider>

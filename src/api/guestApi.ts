@@ -5,7 +5,8 @@ export type GuestType = {
     name: string,
     email: string,
     phoneNumber: string,
-    address: string
+    address: string,
+    password?: string
 }
 
 /**

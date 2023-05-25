@@ -1,14 +1,17 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import {
   AppBar,
   Toolbar,
   Typography,
   Menu,
   MenuItem,
-  IconButton
+  IconButton,
+  Button
  } from '@mui/material';
  import TranslateIcon from '@mui/icons-material/Translate';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import UserIdContext from '../contexts/UserContext';
 
 /**
  * Title bar component
@@ -18,8 +21,11 @@ export default function TitleBar (props: {drawerWidth: number}) {
 
   const drawerWidth = props.drawerWidth;
   
+  const navigate = useNavigate();
   const {t, i18n} = useTranslation();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const [user, _setUser] = useContext(UserIdContext);
 
   function changeLanguage(lang: string) {
     i18n.changeLanguage(lang);
@@ -46,6 +52,18 @@ export default function TitleBar (props: {drawerWidth: number}) {
         <Typography variant="h6" noWrap component="div">
           {t('page-title')}
         </Typography>
+        {user ? (
+          <Typography>
+            {t('logged-in-as')}: {user?.name}
+          </Typography>
+        ) : (
+          <Button 
+            variant='contained'
+            onClick={() => navigate('/login')}
+          >
+            {t('login')}
+          </Button>
+        )}
         <div>
           <IconButton
             size="large"
