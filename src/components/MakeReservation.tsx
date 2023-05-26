@@ -1,99 +1,91 @@
-import { useState, useEffect, useContext } from 'react';
+import { 
+  useState, 
+  useContext 
+} from 'react';
 import { Stack, TextField, Typography, Button } from "@mui/material"
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import { useCreateReservationMutation } from '../api/reservationApi';
 import UserIdContext from '../contexts/UserContext';
+import { useFindRoomByIdQuery } from '../api/roomApi';
 
 export default function MakeReservation() {
 
-  const [inputName, setInputName] = useState('');
-  const [inputEmail, setInputEmail] = useState('');
-  const [inputPhone, setInputPhone] = useState('');
-  const [inputAddress, setInputAddress] = useState('');
   const [inputRequests, setInputRequests] = useState('');
-
-  let timeoutRef = 0;
+  const [errorMsg, setErrorMsg] = useState('');
 
   const navigate = useNavigate();
-
   const {t} = useTranslation();
+  const [user] = useContext(UserIdContext);
+  const [searchParams] = useSearchParams();
+
+  const roomId = Number(searchParams.get('roomId'));
+  const checkinDate = new Date(searchParams.get('checkinDate') ?? 0);
+  const checkoutDate = new Date(searchParams.get('checkoutDate') ?? 0);
+  const numGuests = Number(searchParams.get('numGuests'))
 
   const [createReservation] = useCreateReservationMutation();
 
-  const [searchParams] = useSearchParams();
-
-  const [user] = useContext(UserIdContext);
-
-  /**
-   * On load:
-   * Create the reservation
-   * Set 5 minute timer
-   * If not submitted, delete reservation
-   */
-  useEffect(() => {
-    //create reservation (guest id = -1)
-    createReservation({
-      guestId: user.id,
-      roomId: Number(searchParams.get('roomId')),
-      checkInDate: new Date(searchParams.get('checkinDate') ?? 0),
-      checkOutDate: new Date(searchParams.get('checkoutDate') ?? 0),
-      numberOfGuests: Number(searchParams.get('numGuests')),
-      specialRequests: 'aaa'
-    })
-
-    //set 5 min timer to cancel
-    timeoutRef = setTimeout(() => {
-      handleCancelReservation();
-    }, 1000*60*5); //5 minutes
-
-    //returned func from useEffect gets run when component unmounts
-    return () => {
-      clearTimeout(timeoutRef);
-    }
-  }, []);
+  const {
+    data: room,
+    refetch: _refetchRoom
+  } = useFindRoomByIdQuery(roomId)
 
   function handleCreateReservation() {
-    //create guest if not exists
-    //update reservation (guest_id, specialrequests)
-    clearTimeout(timeoutRef);
+    if (inputRequests) {
+      createReservation({
+        guestId: user.id,
+        roomId: roomId,
+        checkInDate: checkinDate,
+        checkOutDate: checkoutDate,
+        numberOfGuests: numGuests,
+        specialRequests: inputRequests
+      })
+      .unwrap()
+      .then(() => {
+        setErrorMsg('');
+        navigate('/');
+      })
+      .catch(() => {
+        setErrorMsg(String(t('create-error-backend')));
+      })
+    } else {
+      setErrorMsg(String(t('create-error-emptyrequests')));
+    }
   }
 
   function handleCancelReservation() {
-    //delete reservtion
-    clearTimeout(timeoutRef);
     navigate('/');
+  }
+
+  if (!user) {
+    return (
+      <Typography variant="h5">
+        {t('login-required')}
+      </Typography>
+    )
   }
 
   return (
     <Stack spacing={2} sx={{minWidth: 480}}>
-      <Typography variant='h5'>
-        {t('res-tempreserved')}
+
+      <Typography sx={{fontWeight: 'bold'}}>
+        {t('room')} {room?.roomNumber}
       </Typography>
-      <Typography variant='h5'>
-        {t('res-enterinfo')}
+      <Typography>
+        {t('checkinday')}:&nbsp;
+        {checkinDate.toDateString()}
       </Typography>
-      <TextField 
-        label={t('name')}
-        value={inputName} 
-        onChange={e => setInputName(e.target.value)} 
-      />
-      <TextField 
-        label={t('email')}
-        value={inputEmail} 
-        onChange={e => setInputEmail(e.target.value)} 
-      />
-      <TextField 
-        label={t('phonenumber')}
-        value={inputPhone} 
-        onChange={e => setInputPhone(e.target.value)} 
-      />
-      <TextField 
-        label={t('address')}
-        value={inputAddress} 
-        onChange={e => setInputAddress(e.target.value)} 
-      />
+      <Typography>
+        {t('checkoutday')}:&nbsp;
+        {checkoutDate.toDateString()}
+      </Typography>
+      <Typography>
+        {t('totalcost')}:&nbsp;
+        ${(room?.nightlyRate ?? 0) * Math.ceil((checkoutDate.getTime() - checkinDate.getTime()) / (1000*60*60*24))}
+      </Typography>
+      
       <TextField 
         label={t('specialrequests')}
         value={inputRequests} 
@@ -113,6 +105,11 @@ export default function MakeReservation() {
           {t('cancel')}
         </Button>
       </Stack>
+
+      <Typography color={'red'}>
+        {errorMsg}
+      </Typography>
+
     </Stack>
   )
 }
