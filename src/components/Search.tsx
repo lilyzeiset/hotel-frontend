@@ -25,9 +25,15 @@ export default function Search() {
   //   refetch: _refetchRoomtypes
   // } = useFindAllRoomtypesQuery();
 
+  /**
+   * utils
+   */
   const navigate = useNavigate();
   const {t} = useTranslation();
 
+  /**
+   * State
+   */
   const [numGuests, setNumGuests] = useState('2');
   // const [roomType, setRoomType] = useState('');
   const [checkinDate, setCheckinDate] = useState<Dayjs|null>(dayjs(new Date()));
@@ -62,7 +68,6 @@ export default function Search() {
       }
       navigate({pathname: '/searchResults', search: `?${createSearchParams(params)}`});
     }
-    
   }
 
   return (

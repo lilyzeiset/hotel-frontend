@@ -1,28 +1,26 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import {
   Button,
   Stack, 
   TextField,
   Typography
 } from '@mui/material';
-import { useCreateGuestMutation } from '../api/guestApi';
-import { useNavigate } from 'react-router-dom';
 
-/*export type GuestType = {
-    id?: number,
-    name: string,
-    email: string,
-    phoneNumber: string,
-    address: string,
-    password?: string
-}*/
+import { useCreateGuestMutation } from '../api/guestApi';
 
 export default function UserRegistration() {
 
+  /**
+   * utils
+   */
   const {t} = useTranslation();
   const navigate = useNavigate();
   
+  /**
+   * States
+   */
   const [inputName, setInputName] = useState('');
   const [inputEmail, setInputEmail] = useState('');
   const [inputPhone, setInputPhone] = useState('');
@@ -32,8 +30,14 @@ export default function UserRegistration() {
 
   const [errorMsg, setErrorMsg] = useState('');
 
+  /**
+   * API Call
+   */
   const [createGuest] = useCreateGuestMutation();
 
+  /**
+   * handles creating a user/guest
+   */
   function handleRegister() {
     if (inputName && inputEmail && inputPhone && inputAddress && inputPassword &&
       (inputPassword === inputConfirmPassword)

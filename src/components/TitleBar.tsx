@@ -23,23 +23,42 @@ export default function TitleBar (props: {drawerWidth: number}) {
 
   const drawerWidth = props.drawerWidth;
   
+  /**
+   * utils
+   */
   const navigate = useNavigate();
   const {t, i18n} = useTranslation();
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-
   const [user, setUser] = useContext(UserIdContext);
 
+  /**
+   * Anchor element state for showing/hiding language menu
+   */
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  /**
+   * API Call
+   */
   const [logout] = useLogoutMutation();
 
+  /**
+   * Changes language and closes menu
+   * @param lang the new language
+   */
   function changeLanguage(lang: string) {
     i18n.changeLanguage(lang);
     handleClose();
   }
 
+  /**
+   * handles displaying language menu
+   */
   function handleMenu(event: React.MouseEvent<HTMLElement>) {
     setAnchorEl(event?.currentTarget);
   }
 
+  /**
+   * handles closing language menu
+   */
   function handleClose() {
     setAnchorEl(null);
   };
@@ -57,7 +76,7 @@ export default function TitleBar (props: {drawerWidth: number}) {
           {t('page-title')}
         </Typography>
         <Stack spacing={2} direction='row' sx={{display: 'flex', alignItems: 'center'}}>
-        {user ? (
+        {user ? ( 
           <>
             <Typography>
               {t('logged-in-as')}: {user?.name}

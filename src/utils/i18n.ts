@@ -56,7 +56,8 @@ i18n.use(initReactI18next).init({
         "create-error-backend": "Something went wrong. Reservation not created.",
         "create-error-emptyrequests": "Please enter your requests",
         "totalcost": "Total price",
-        "create-success": "Created reservation. Redirecting..."
+        "create-success": "Created reservation. Redirecting...",
+        "requests": "Requests"
       }
     },
     de: {
@@ -110,7 +111,8 @@ i18n.use(initReactI18next).init({
         "create-error-backend": "Etwas ist schief gelaufen. Reservierung nicht erstellt.",
         "create-error-emptyrequests": "Bitte geben Sie Ihre Wünsche ein",
         "totalcost": "Gesamtpreis",
-        "create-success": "Reservierung erstellt. Weiterleitung..."
+        "create-success": "Reservierung erstellt. Weiterleitung...",
+        "requests": "Anfragen"
       }
     }
   },

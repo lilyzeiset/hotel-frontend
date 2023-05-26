@@ -6,7 +6,7 @@ export type AuthType = {
 }
 
 /**
- * API for /roomtypes endpoint
+ * API for authentication
  */
 export const authApi = createApi({
     reducerPath: 'authApi',

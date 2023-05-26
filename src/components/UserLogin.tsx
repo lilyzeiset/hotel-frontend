@@ -1,5 +1,6 @@
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import { 
   Stack,
   TextField,
@@ -9,22 +10,32 @@ import {
 
 import { useLoginMutation } from "../api/authApi";
 import UserIdContext from "../contexts/UserContext";
-import { useNavigate } from "react-router-dom";
 
 export default function UserLogin() {
 
+  /**
+   * Context and utils
+   */
   const {t} = useTranslation();
   const navigate = useNavigate();
+  const [_user, setUser] = useContext(UserIdContext);
 
+  /**
+   * States
+   */
   const [inputEmail, setInputEmail] = useState('');
   const [inputPassword, setInputPassword] = useState('');
 
   const [errorMsg, setErrorMsg] = useState('');
 
-  const [_user, setUser] = useContext(UserIdContext);
-
+  /**
+   * API call
+   */
   const [auth] = useLoginMutation();
 
+  /**
+   * Handles logging in
+   */
   function handleLogin() {
     auth({email: inputEmail, password: inputPassword})
     .unwrap()

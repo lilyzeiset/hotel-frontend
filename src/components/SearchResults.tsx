@@ -22,13 +22,21 @@ import {
 
 export default function SearchResults() {
 
+  /**
+   * utils
+   */
   const navigate = useNavigate();
-
   const {t} = useTranslation();
 
+  /**
+   * State
+   */
   const [page, setPage] = useState(1);
-
   const numResultsPerPage = 3; //ideally let user decide, but this is fine for now
+
+  /**
+   * Parse search params
+   */
   const [searchParams] = useSearchParams();
   const mySearchParams = {
     numGuests: Number(searchParams.get('numGuests')),
@@ -40,6 +48,9 @@ export default function SearchResults() {
     pageNumber: page-1 //0-indexed
   };
 
+  /**
+   * API Calls
+   */
   const {
     data: rooms,
     refetch: _refetchRooms

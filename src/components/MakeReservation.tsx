@@ -43,7 +43,7 @@ export default function MakeReservation() {
   const checkoutDate = new Date(Number(outYear), Number(outMonth)-1, Number(outDay));
 
   /**
-   * Queries
+   * API Calls
    */
   const [createReservation] = useCreateReservationMutation();
 

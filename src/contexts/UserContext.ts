@@ -1,9 +1,7 @@
-import { 
-  createContext,
-} from "react";
+import { createContext } from "react";
 
 /**
- * Context to hold warehouse state
+ * Context to hold user
  */
 const UserIdContext = createContext<any>([]);
 export default UserIdContext;

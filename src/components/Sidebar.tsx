@@ -10,9 +10,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import HomeIcon from '@mui/icons-material/Home';
 import HotelIcon from '@mui/icons-material/Hotel';
 
-// import { useEffect } from 'react';
-// @ts-ignore
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 /**
@@ -24,8 +22,6 @@ export default function Sidebar(props: {drawerWidth: number}) {
   const drawerWidth = props.drawerWidth;
 
   const navigate = useNavigate();
-  // const location = useLocation();
-
   const {t} = useTranslation();
 
   return (
