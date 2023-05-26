@@ -56,7 +56,7 @@ export default function TitleBar (props: {drawerWidth: number}) {
         <Typography variant="h6" noWrap component="div">
           {t('page-title')}
         </Typography>
-        <Stack spacing={2} direction='row'>
+        <Stack spacing={2} direction='row' sx={{display: 'flex', alignItems: 'center'}}>
         {user ? (
           <>
             <Typography>
