@@ -6,7 +6,8 @@ import {
   Menu,
   MenuItem,
   IconButton,
-  Button
+  Button,
+  Stack
  } from '@mui/material';
  import TranslateIcon from '@mui/icons-material/Translate';
 import { useTranslation } from 'react-i18next';
@@ -55,13 +56,15 @@ export default function TitleBar (props: {drawerWidth: number}) {
         <Typography variant="h6" noWrap component="div">
           {t('page-title')}
         </Typography>
+        <Stack spacing={2} direction='row'>
         {user ? (
           <>
             <Typography>
               {t('logged-in-as')}: {user?.name}
             </Typography>
             <Button 
-              variant='contained'
+              variant='text'
+              color='secondary'
               onClick={() => {
                 logout();
                 setUser(null);
@@ -73,13 +76,15 @@ export default function TitleBar (props: {drawerWidth: number}) {
         ) : (
           <>
             <Button 
-              variant='contained'
+              variant='text'
+              color='secondary'
               onClick={() => navigate('/register')}
             >
               {t('register')}
             </Button>
             <Button 
-              variant='contained'
+              variant='text'
+              color='secondary'
               onClick={() => navigate('/login')}
             >
               {t('login')}
@@ -116,6 +121,7 @@ export default function TitleBar (props: {drawerWidth: number}) {
             <MenuItem onClick={() => changeLanguage('de')}>Deutsch</MenuItem>
           </Menu>
         </div>
+        </Stack>
       </Toolbar>
     </AppBar>
   )
