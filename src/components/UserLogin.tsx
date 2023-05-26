@@ -39,7 +39,7 @@ export default function UserLogin() {
   }
 
   return (
-    <Stack spacing={2} sx={{maxWidth: 480}}>
+    <Stack spacing={2} sx={{minWidth: 480}}>
       <TextField 
         label={t('email')} 
         value={inputEmail} 
