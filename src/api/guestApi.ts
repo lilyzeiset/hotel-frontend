@@ -14,7 +14,7 @@ export type GuestType = {
  */
 export const guestApi = createApi({
     reducerPath: 'guestApi',
-    baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:8080/guests/'}),
+    baseQuery: fetchBaseQuery({baseUrl: import.meta.env.VITE_API_URI+'/guests/'}),
     endpoints: (builder) => {return {
         findAllGuests: builder.query<GuestType[], void>({
             query: () => ''

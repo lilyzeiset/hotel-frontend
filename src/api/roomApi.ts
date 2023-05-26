@@ -30,7 +30,7 @@ export type SearchParams = {
  */
 export const roomApi = createApi({
     reducerPath: 'roomApi',
-    baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:8080/rooms/'}),
+    baseQuery: fetchBaseQuery({baseUrl: import.meta.env.VITE_API_URI+'/rooms/'}),
     endpoints: (builder) => {return {
         findAllRooms: builder.query<RoomTsType[], void>({
             query: () => ''

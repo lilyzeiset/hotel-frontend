@@ -73,7 +73,7 @@ export default function TitleBar (props: {drawerWidth: number}) {
     >
       <Toolbar sx={{ justifyContent: "space-between" }}>
         <Typography variant="h6" noWrap component="div">
-          {t('page-title')}
+          {t('page-title')} {import.meta.env.VITE_APP_TITLE_SUFFIX}
         </Typography>
         <Stack spacing={2} direction='row' sx={{display: 'flex', alignItems: 'center'}}>
         {user ? ( 

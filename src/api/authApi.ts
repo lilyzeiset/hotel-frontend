@@ -10,7 +10,7 @@ export type AuthType = {
  */
 export const authApi = createApi({
     reducerPath: 'authApi',
-    baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:8080/'}),
+    baseQuery: fetchBaseQuery({baseUrl: import.meta.env.VITE_API_URI+'/'}),
     endpoints: (builder) => {return {
         login: builder.mutation<AuthType, AuthType>({
             query: (auth) => { return {

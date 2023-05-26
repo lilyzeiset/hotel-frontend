@@ -12,7 +12,7 @@ export type RoomtypeType = {
  */
 export const roomtypeApi = createApi({
     reducerPath: 'roomtypeApi',
-    baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:8080/roomtypes/'}),
+    baseQuery: fetchBaseQuery({baseUrl: import.meta.env.VITE_API_URI+'/roomtypes/'}),
     endpoints: (builder) => {return {
         findAllRoomtypes: builder.query<RoomtypeType[], void>({
             query: () => ''

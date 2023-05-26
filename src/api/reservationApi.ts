@@ -15,7 +15,7 @@ export type ReservationType = {
  */
 export const reservationApi = createApi({
     reducerPath: 'reservationApi',
-    baseQuery: fetchBaseQuery({baseUrl: 'http://localhost:8080/reservations/'}),
+    baseQuery: fetchBaseQuery({baseUrl: import.meta.env.VITE_API_URI+'/reservations/'}),
     endpoints: (builder) => {return {
         findAllReservations: builder.query<ReservationType[], void>({
             query: () => ''
