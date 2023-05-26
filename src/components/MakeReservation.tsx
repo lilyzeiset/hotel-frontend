@@ -12,19 +12,39 @@ import { useFindRoomByIdQuery } from '../api/roomApi';
 
 export default function MakeReservation() {
 
-  const [inputRequests, setInputRequests] = useState('');
-  const [errorMsg, setErrorMsg] = useState('');
-
+  /**
+   * Contexts and utilities
+   */
   const navigate = useNavigate();
   const {t} = useTranslation();
   const [user] = useContext(UserIdContext);
+
+  /**
+   * States
+   */
+  const [inputRequests, setInputRequests] = useState('');
+  const [errorMsg, setErrorMsg] = useState('');
+  const [successMsg, setSuccessMsg] = useState('');
+
+  /**
+   * Parsing search params
+   */
   const [searchParams] = useSearchParams();
 
   const roomId = Number(searchParams.get('roomId'));
-  const checkinDate = new Date(searchParams.get('checkinDate') ?? 0);
-  const checkoutDate = new Date(searchParams.get('checkoutDate') ?? 0);
   const numGuests = Number(searchParams.get('numGuests'))
 
+  const checkinDateParam = searchParams.get('checkinDate');
+  const [inYear, inMonth, inDay] = (checkinDateParam ?? '0').split('-');
+  const checkinDate = new Date(Number(inYear), Number(inMonth)-1, Number(inDay));
+
+  const checkoutDateParam = searchParams.get('checkoutDate');
+  const [outYear, outMonth, outDay] = (checkoutDateParam ?? '0').split('-');
+  const checkoutDate = new Date(Number(outYear), Number(outMonth)-1, Number(outDay));
+
+  /**
+   * Queries
+   */
   const [createReservation] = useCreateReservationMutation();
 
   const {
@@ -32,8 +52,13 @@ export default function MakeReservation() {
     refetch: _refetchRoom
   } = useFindRoomByIdQuery(roomId)
 
+  /**
+   * Handles creating a reservation
+   */
   function handleCreateReservation() {
     if (inputRequests) {
+      setErrorMsg('');
+      setSuccessMsg(String(t('create-success')));
       createReservation({
         guestId: user.id,
         roomId: roomId,
@@ -44,8 +69,7 @@ export default function MakeReservation() {
       })
       .unwrap()
       .then(() => {
-        setErrorMsg('');
-        navigate('/');
+        navigate('/myReservations');
       })
       .catch(() => {
         setErrorMsg(String(t('create-error-backend')));
@@ -55,10 +79,18 @@ export default function MakeReservation() {
     }
   }
 
+  /**
+   * Handles cancelling creating a reservation
+   * send user back one page in history (to search results)
+   */
   function handleCancelReservation() {
-    navigate('/');
+    navigate(-1);
   }
 
+  /**
+   * Must be logged in to create reservation
+   * Tell user to log in if they're not
+   */
   if (!user) {
     return (
       <Typography variant="h5">
@@ -106,9 +138,15 @@ export default function MakeReservation() {
         </Button>
       </Stack>
 
-      <Typography color={'red'}>
-        {errorMsg}
-      </Typography>
+      {successMsg ? (
+        <Typography color={'green'}>
+          {successMsg}
+        </Typography>
+      ) : (
+        <Typography color={'red'}>
+          {errorMsg}
+        </Typography>
+      )}
 
     </Stack>
   )
