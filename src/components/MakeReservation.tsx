@@ -100,7 +100,7 @@ export default function MakeReservation() {
   }
 
   return (
-    <Stack spacing={2} sx={{minWidth: 480}}>
+    <Stack spacing={2} sx={{maxWidth: 480}}>
 
       <Typography variant='h5' sx={{fontWeight: 'bold'}}>
         {t('room')} {room?.roomNumber}

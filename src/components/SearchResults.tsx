@@ -71,7 +71,7 @@ export default function SearchResults() {
   };
 
   return (
-    <Stack spacing={2} sx={{minWidth: 480}}>
+    <Stack spacing={2} sx={{maxWidth: 480}}>
       {rooms?.map((room) => (
         <Card key={room.id} raised={true}>
           <Stack spacing={2} padding={2} direction={'row'} sx={{justifyContent: 'space-between'}}>

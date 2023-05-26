@@ -45,7 +45,7 @@ export default function MyReservations() {
   }
 
   return (
-    <Stack spacing={2} sx={{minWidth: 480}}>
+    <Stack spacing={2} sx={{maxWidth: 480}}>
       {reservations?.map((res) => (
         <Reservation key={res?.id} reservation={res} />
       ))}

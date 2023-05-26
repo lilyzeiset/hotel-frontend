@@ -58,7 +58,7 @@ export default function UserRegistration() {
   }
 
   return (
-    <Stack spacing={2} sx={{minWidth: 480}}>
+    <Stack spacing={2} sx={{maxWidth: 480}}>
       <TextField 
         label={t('name')}
         value={inputName} 
