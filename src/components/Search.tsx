@@ -3,85 +3,75 @@ import {
   Stack, 
   TextField, 
   Button, 
-  InputLabel, 
-  Select, 
-  MenuItem,
-  FormControl
+  // InputLabel, 
+  // Select, 
+  // MenuItem,
+  // FormControl
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate, createSearchParams } from "react-router-dom";
 import dayjs, {Dayjs} from "dayjs";
 import { useTranslation } from "react-i18next";
+// import { useFindAllRoomtypesQuery } from "../api/roomtypeApi";
 
 /**
  * Search page
  */
 export default function Search() {
 
-  const roomTypes = [
-    'Standard',
-    'Deluxe',
-    'Family',
-    'Executive',
-    'Penthouse'
-  ];
+  // const {
+  //   data: roomtypes,
+  //   refetch: _refetchRoomtypes
+  // } = useFindAllRoomtypesQuery();
 
+  /**
+   * utils
+   */
   const navigate = useNavigate();
-
-  const [numGuests, setNumGuests] = useState('2');
-  const [roomType, setRoomType] = useState('');
-  const [checkinDate, setCheckinDate] = useState<Dayjs|null>(dayjs(new Date()));
-  const [checkoutDate, setCheckoutDate] = useState<Dayjs|null>(dayjs(new Date()));
-
-  const [isLoading, setIsLoading] = useState(true);
-  const [errorMsg, setErrorMsg] = useState('');
-
   const {t} = useTranslation();
 
   /**
-   * on component load, display nothing until data is loaded
+   * State
    */
-  useEffect(() => {
-    setIsLoading(true);
-    //fetch room types
-    setIsLoading(false);
-  }, []);
+  const [numGuests, setNumGuests] = useState('2');
+  // const [roomType, setRoomType] = useState('');
+  const [checkinDate, setCheckinDate] = useState<Dayjs|null>(dayjs(new Date()));
+  const [checkoutDate, setCheckoutDate] = useState<Dayjs|null>(dayjs(new Date()));
+  const [minPrice, setMinPrice] = useState('0');
+  const [maxPrice, setMaxPrice] = useState('1000');
 
+  const [errorMsg, setErrorMsg] = useState('');
 
+  /**
+   * Handles submitting a search
+   * including showing an error message
+   */
   function handleSearch() {
     if (Number(numGuests) < 1) {
       setErrorMsg(t('search-error-numguests') ?? '')
-    } else if (roomType === '') {
-      setErrorMsg(t('search-error-roomtype') ?? '')
+    // } else if (roomType === '') {
+    //   setErrorMsg(t('search-error-roomtype') ?? '')
     } else if (checkinDate && checkoutDate && checkinDate?.toDate() >= checkoutDate?.toDate()) {
       setErrorMsg(t('search-error-dates') ?? '')
+    } else if (Number(maxPrice) < Number(minPrice)) {
+      setErrorMsg(t('search-error-price') ?? '')
     } else {
       setErrorMsg('');
-      console.log(numGuests);
-      console.log(roomType);
-      console.log(checkinDate?.toDate());
-      console.log(checkoutDate?.toDate());
       const params = {
         numGuests: numGuests,
-        roomType: roomType,
-        checkinDate: checkinDate?.toString() ?? '', //TODO: fix formatting of these strings
-        checkoutDate: checkoutDate?.toString() ?? ''
+        // roomType: roomType,
+        checkinDate: checkinDate?.format('YYYY-MM-DD') ?? '',
+        checkoutDate: checkoutDate?.format('YYYY-MM-DD') ?? '',
+        minPrice: minPrice,
+        maxPrice: maxPrice
       }
       navigate({pathname: '/searchResults', search: `?${createSearchParams(params)}`});
     }
-    
-  }
-
-  /**
-   * display nothing until data is loaded
-   */
-  if (isLoading) {
-    return null;
   }
 
   return (
-    <Stack spacing={2} sx={{minWidth: 480}}>
+    <Stack spacing={2} sx={{width: 480}}>
 
       <TextField 
         label={t('search-numberofguests')}
@@ -90,6 +80,8 @@ export default function Search() {
         onChange={(event) => setNumGuests(event.target.value)}
       />
 
+{/* Roomtype selector. Not used but leaving here for future reference */}
+{/* 
       <FormControl>
         <InputLabel id="roomtype-select-label">{t('search-roomtype')}</InputLabel>
         <Select required
@@ -99,27 +91,45 @@ export default function Search() {
           value={roomType}
           onChange={(event) => setRoomType(event.target.value)}
         >
-          {roomTypes?.map((roomType) => (
-            <MenuItem key={roomType} value={roomType}>
-              {roomType}
+          {roomtypes?.map((roomtype) => (
+            <MenuItem key={roomtype.id} value={roomtype.id}>
+              {roomtype.name}
             </MenuItem>
           ))}
         </Select>
-      </FormControl>
+      </FormControl> 
+*/}
 
-      <DatePicker 
-        label={t('search-checkindate')}
-        value={checkinDate}
-        onChange={(date) => setCheckinDate(date)}
-      />
-      <DatePicker 
-        label={t('search-checkoutdate')}
-        value={checkoutDate}
-        onChange={(date) => setCheckoutDate(date)}
-      />
+      <Stack spacing={2} direction={'row'}>
+        <DatePicker 
+          label={t('search-checkindate')}
+          value={checkinDate}
+          onChange={(date) => setCheckinDate(date)}
+        />
+        <DatePicker 
+          label={t('search-checkoutdate')}
+          value={checkoutDate}
+          onChange={(date) => setCheckoutDate(date)}
+        />
+      </Stack>
+
+      <Stack spacing={2} direction={'row'}>
+        <TextField fullWidth={true}
+          label={t('search-minprice')}
+          type='number'
+          value={minPrice} 
+          onChange={(event) => setMinPrice(event.target.value)}
+        />
+        <TextField fullWidth={true}
+          label={t('search-maxprice')}
+          type='number'
+          value={maxPrice} 
+          onChange={(event) => setMaxPrice(event.target.value)}
+        />
+      </Stack>
 
       <Button variant='contained' onClick={handleSearch}>
-        Search
+        {t('search')}
       </Button>
 
       <Typography variant='body1' sx={{color: 'red'}}>

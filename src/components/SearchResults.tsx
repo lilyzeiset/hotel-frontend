@@ -1,49 +1,122 @@
-import { Stack, Card, Button } from "@mui/material";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { 
+  useNavigate, 
+  useSearchParams,
+  createSearchParams
+} from "react-router-dom";
+
+import { 
+  Stack, 
+  Card, 
+  Button, 
+  Typography,
+  Pagination
+} from "@mui/material";
+
+import { 
+  // useFindAllRoomsQuery, 
+  useFindAvailableRoomsQuery, 
+  useFindAvailableRoomsTotalQuery 
+} from "../api/roomApi";
 
 export default function SearchResults() {
 
+  /**
+   * utils
+   */
   const navigate = useNavigate();
-
   const {t} = useTranslation();
 
-  const roomTypes = [
-    'Standard',
-    'Deluxe',
-    'Family',
-    'Executive',
-    'Penthouse'
-  ];
+  /**
+   * State
+   */
+  const [page, setPage] = useState(1);
+  const numResultsPerPage = 3; //ideally let user decide, but this is fine for now
 
-  const rooms = [
-    {id: 0, roomTypeId: 1, roomNumber: '101', nightlyRate: 100},
-    {id: 1, roomTypeId: 1, roomNumber: '102', nightlyRate: 100},
-    {id: 2, roomTypeId: 2, roomNumber: '201', nightlyRate: 150},
-    {id: 3, roomTypeId: 2, roomNumber: '202', nightlyRate: 150},
-    {id: 4, roomTypeId: 3, roomNumber: '301', nightlyRate: 200},
-    {id: 5, roomTypeId: 4, roomNumber: '401', nightlyRate: 300}
-  ]
+  /**
+   * Parse search params
+   */
+  const [searchParams] = useSearchParams();
+  const mySearchParams = {
+    numGuests: Number(searchParams.get('numGuests')),
+    checkinDate: searchParams.get('checkinDate') as string,
+    checkoutDate: searchParams.get('checkoutDate') as string,
+    minPrice: Number(searchParams.get('minPrice')),
+    maxPrice: Number(searchParams.get('maxPrice')),
+    numResultsPerPage: numResultsPerPage, 
+    pageNumber: page-1 //0-indexed
+  };
 
-  function handleBookRoom() {
-    navigate({pathname: '/makeReservation'});
+  /**
+   * API Calls
+   */
+  const {
+    data: rooms,
+    refetch: _refetchRooms
+  } = useFindAvailableRoomsQuery(mySearchParams);
+
+  const {
+    data: totalResults,
+    refetch: _refetchTotal
+  } = useFindAvailableRoomsTotalQuery(mySearchParams);
+
+  /**
+   * sends user to makeReservation to book the selected room
+   */
+  function handleBookRoom(roomId: number) {
+    const params = {
+      numGuests: String(mySearchParams.numGuests),
+      checkinDate: mySearchParams.checkinDate,
+      checkoutDate: mySearchParams.checkoutDate,
+      roomId: String(roomId)
+    }
+    navigate({pathname: '/makeReservation', search: `?${createSearchParams(params)}`});
   }
 
+  /**
+   * handles pagination
+   */
+  function handleChangePage(_event: React.ChangeEvent<unknown>, value: number) {
+    setPage(value);
+  };
+
   return (
-    <Stack spacing={2} sx={{minWidth: 480}}>
+    <Stack spacing={2} sx={{maxWidth: 480}}>
       {rooms?.map((room) => (
-        <Card key={room.id}>
-          {roomTypes[room.roomTypeId+1]} {t('room')}
-          <br />
-          {t('floor')} {room.roomNumber[0]}
-          <br />
-          ${room.nightlyRate}/{t('night')}
-          <br />
-          <Button variant='contained' onClick={handleBookRoom}>
-            {t('bookroom')}
-          </Button>
+        <Card key={room.id} raised={true}>
+          <Stack spacing={2} padding={2} direction={'row'} sx={{justifyContent: 'space-between'}}>
+
+            <Stack spacing={2}>
+              <Typography sx={{fontWeight: 'bold'}}>
+                {t('room')} {room?.roomNumber}
+              </Typography>
+              <Typography>
+                {room?.roomType?.name}
+              </Typography>
+              <Typography>
+                ${room?.nightlyRate}/{t('night')} 
+              </Typography>
+            </Stack>
+
+            <Stack spacing={2}>
+            <Button variant='contained' onClick={() => handleBookRoom(room.id ?? -1)}>
+              {t('bookroom')}
+            </Button>
+            </Stack>
+
+          </Stack>
         </Card>
       ))}
+      
+      <Pagination 
+        count={Math.ceil((totalResults ?? 0) / numResultsPerPage)} 
+        siblingCount={2} 
+        boundaryCount={1}  
+        page={page} 
+        onChange={handleChangePage}
+      />
+
     </Stack>
   )
 }
