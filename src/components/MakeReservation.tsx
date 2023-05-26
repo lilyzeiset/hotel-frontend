@@ -102,8 +102,11 @@ export default function MakeReservation() {
   return (
     <Stack spacing={2} sx={{minWidth: 480}}>
 
-      <Typography sx={{fontWeight: 'bold'}}>
+      <Typography variant='h5' sx={{fontWeight: 'bold'}}>
         {t('room')} {room?.roomNumber}
+      </Typography>
+      <Typography variant='h6' sx={{fontWeight: 'bold'}}>
+        {room?.roomType?.description}
       </Typography>
       <Typography>
         {t('checkinday')}:&nbsp;

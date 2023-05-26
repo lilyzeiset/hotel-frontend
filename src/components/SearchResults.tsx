@@ -78,10 +78,10 @@ export default function SearchResults() {
 
             <Stack spacing={2}>
               <Typography sx={{fontWeight: 'bold'}}>
-                {room?.roomType?.name}
+                {t('room')} {room?.roomNumber}
               </Typography>
               <Typography>
-                {t('room')} {room?.roomNumber}
+                {room?.roomType?.name}
               </Typography>
               <Typography>
                 ${room?.nightlyRate}/{t('night')} 
