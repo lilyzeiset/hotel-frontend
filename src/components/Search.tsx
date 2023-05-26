@@ -124,7 +124,7 @@ export default function Search() {
       </Stack>
 
       <Button variant='contained' onClick={handleSearch}>
-        Search
+        {t('search')}
       </Button>
 
       <Typography variant='body1' sx={{color: 'red'}}>
